@@ -1,638 +1,596 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
     <style>
-        html {
-            /* Copyright issue, ask Deidre to create a new one*/
-            background: linear-gradient(rgba(14, 92, 219, 0.7), rgba(155, 101, 34, 0.7)), url('https://thumbs.gfycat.com/ObviousLimpArgentinehornedfrog-size_restricted.gif');
-            background-size: cover;
-            height: 100%;
-            margin: 0;
-        }
-        
-        body {
-            border-radius: 20px;
-            background: rgba(0, 0, 0, 0.7);
-            height: 90%;
-            margin-top: 2%;
-            margin-bottom: 2%;
-            margin-left: 2%;
-            margin-right: 2%;
-            padding: 10px;
-        }
-        /* Style the tab */
-        
-        .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
-        /* Style the buttons inside the tab */
-        
-        .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-            font-size: 17px;
-        }
-        /* Change background color of buttons on hover */
-        
-        .tab button:hover {
-            background-color: #ddd;
-        }
-        /* Create an active/current tablink class */
-        
-        .tab button.active {
-            background-color: #ccc;
-        }
-        /* Style the tab content */
-        
-        .tabcontent {
-            display: none;
-            color: white;
-            height: 90%;
-            margin-top: 1%;
-            margin-bottom: 1%;
-            margin-left: 1%;
-            margin-right: 1%;
-        }
-        
-        #start_page {
-            text-align: center;
-            padding-top: 40px;
-        }
-        
-        #node_page {
-            text-align: center;
-        }
-        
-        .row-2 {
-            height: 50%;
-            width: 100%;
-        }
-        
-        .row-3 {
-            height: 33%;
-            width: 100%;
-        }
-        
-        .row-6 {
-            height: 16.6%;
-            width: 100%;
-        }
-        
-        .col-2 {
-            float: left;
-            height: 100%;
-            width: 50%;
-        }
-        
-        .col-3 {
-            float: left;
-            height: 100%;
-            width: 33%;
-        }
-        
-        .col-2in3 {
-            float: left;
-            height: 100%;
-            width: 66.6%;
-        }
-        
-        .col-4 {
-            float: left;
-            height: 100%;
-            width: 25%;
-        }
-        
-        .col-3in4 {
-            float: left;
-            height: 100%;
-            width: 75%;
-        }
-        
-        .col-6 {
-            float: left;
-            height: 100%;
-            width: 16%;
-        }
-        
-        .col-2 {
-            float: left;
-            height: 100%;
-            width: 50%;
-        }
-        
-        #logo {
-            height: 3%;
-            position: absolute;
-            bottom: 1%;
-            right: 3%;
-        }
-        /* #bottom-left-div {
-            border-right: 1px solid #1589be;
-        } */
+      html {
+        /* Copyright issue, ask Deidre to create a new one*/
+        background: linear-gradient(
+            rgba(14, 92, 219, 0.7),
+            rgba(155, 101, 34, 0.7)
+          ),
+          url('https://thumbs.gfycat.com/ObviousLimpArgentinehornedfrog-size_restricted.gif');
+        background-size: cover;
+        height: 100%;
+        margin: 0;
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <script src='https://cdn.plot.ly/plotly-2.12.1.min.js'></script>
+    <script src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
+    <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+  </head>
 
-<body>
-    <div id="start_page" class="tabcontent">
-        <div>
-            <h1>EVM node performance insider</h1>
+  <body>
+    <main class="">
+      <img
+        class="h-8 m-8"
+        src="https://raw.githubusercontent.com/wuzhong-zhu/resources/main/chainstack-white.svg"
+      />
+      <div
+        id="start_page"
+        class="p-8 bg-black text-white rounded-lg h-4/5 opacity-80 max-w-4xl mx-auto"
+      >
+        <h1 class="text-3xl font-bold my-8">EVM node performance insider</h1>
+        <div class="space-y-4 flex flex-col mb-8 max-w-2xl">
+          <div class="flex flex-row align-center space-x-4">
             <p>The endpoint is:</p>
-            <input class="url_rb" type="radio" name="url_type" value="ws" checked>
+
+            <input
+              checked
+              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+              type="radio"
+              name="url_type"
+              value="ws"
+              checked
+            />
             <label>WebSocket</label>
-            <input class="url_rb " type="radio" name="url_type" value="https">
+            <input class="url_rb" type="radio" name="url_type" value="https" />
             <label>Https</label>
-            </br>
-            </br>
-            <input type="text" id="url" placeholder="wss://abcd*****" value="" />
-            </br>
-            </br>
-            <button id="start_button">Start</button>
-            <p>*Notes:</p>
-            <p>Works only on EVM.</p>
-            <p>Transaction analysis only on WS endpoints.</p>
-            <p>If TxPool analysis doesn't work, that is probably because your node provider closed the RPC endpoint.</p>
-            <p>If network analysis stops working, that is probably because your node provider limits request rate.</p>
-            <p>
-                <a href="https://chainstack.com/" style="color:lightblue">Chainstack</a> free RPC endpoint doesn't set request limit.
-            </p>
-            <p>
-                <a href="https://chainstack.com/" style="color:lightblue">Chainstack</a> dedicated node gives full access to all endpoints.
-            </p>
+          </div>
+          <input
+            type="text"
+            placeholder="wss://abcd*****"
+            id="url"
+            class="shadow-sm text-indigo-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          />
         </div>
-    </div>
 
-    <div id="node_page" class="tabcontent">
-        <div class="row-6">
-            <div class="col-6">
-                <p>Chain ID</p>
-                <h4 id="node-1-1">Waiting for response</h4>
-            </div>
-            <div class="col-6">
-                <p>Is synced</p>
-                <h4 id="node-1-2">Waiting for response</h4>
-            </div>
-            <div class="col-6">
-                <p>Current block number</p>
-                <h4 id="node-1-3">Waiting for response</h4>
-            </div>
-            <div class="col-6">
-                <p>Is miner</p>
-                <h4 id="node-1-4">Waiting for response</h4>
-            </div>
-            <div class="col-6">
-                <p>Hash rate</p>
-                <h4 id="node-1-5">Waiting for response</h4>
-            </div>
-            <div class="col-6">
-                <p>Peer count</p>
-                <h4 id="node-1-6">Waiting for response</h4>
-            </div>
-        </div>
-        <div class="row-2">
-            <div class="col-3">
-                <p>Average network latency</p>
-                <h1 id="node-2-2">Waiting for response</h1>
-                <p>instantaneous latency</p>
-                <p id="node-2-1">Waiting for response</p>
-            </div>
-            <div class="col-2in3" id="graph1">
-            </div>
-        </div>
-        <div class="row-3">
-            <div class="col-3">
-                <p>Average transactions received per second</p>
-                <h1 id="node-2-3">Waiting for response</h1>
-                <p>instantaneous transactions/s</p>
-                <p id="node-2-4">Waiting for response</p>
-            </div>
-            <div class="col-3">
-                <p>Average gas received per second</p>
-                <h2 id="node-2-5">Waiting for response</h2>
-                <p>Average value received per second</p>
-                <h2 id="node-2-6">Waiting for response</h2>
-            </div>
-            <div class="col-3" id="bottom-left-div">
-                <div class="col-2">
-                    <div class="row-2">
-                        <p>TxValue in TxPool</p>
-                        <h2 id="node-3-1">Waiting for response</h2>
-                    </div>
-                    <div class="row-2">
-                        <h2 id="node-3-3">Waiting for response</h2>
-                        <p>Since last block updated</p>
-                    </div>
-                </div>
-                <div class="col-2">
-                    <div class="row-2">
-                        <p>Gas in TxPool</p>
-                        <h2 id="node-3-2">Waiting for response</h2>
-                    </div>
-                    <div class="row-2">
-                        <h2 id="node-3-4">Waiting for response</h2>
-                        <p>Block update latency</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
-<img id="logo" src="https://raw.githubusercontent.com/wuzhong-zhu/resources/main/chainstack-white.svg ">
+        <button
+          id="start_button"
+          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Start test
+        </button>
+        <div class="space-y-4 mt-12">
+          <p class="text-xl font-bold">⚠️ Notes</p>
+          <ul class="space-y-2 list-disc pl-4">
+            <li>Works only on EVM.</li>
+            <li>Transaction analysis only on WS endpoints.</li>
+            <li>
+              If TxPool analysis doesn't work, that is probably because your
+              node provider closed the RPC endpoint.
+            </li>
+            <li>
+              If network analysis stops working, that is probably because your
+              node provider limits request rate.
+            </li>
+          </ul>
 
+          <hr />
+          <p>
+            <a
+              href="https://chainstack.com/"
+              class="hover:underline text-blue-300"
+              >Chainstack</a
+            >
+            free RPC endpoint doesn't set request limit.
+          </p>
+          <p>
+            <a
+              href="https://chainstack.com/"
+              class="hover:underline text-blue-300"
+              >Chainstack</a
+            >
+            dedicated node gives full access to all endpoints.
+          </p>
+        </div>
+      </div>
+      <div
+        id="node_page"
+        class="hidden p-8 bg-black text-white rounded-lg h-full opacity-80"
+      >
+        <button class="hover:underline my-8" onClick="backToMain()">
+          ⬅️ Go back
+        </button>
+        <div class="flex flex-row justify-around mb-8">
+          <div class="text-center">
+            <p class="text-lg font-bold">Chain ID</p>
+            <p id="node-1-1">Waiting for response</p>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold">Is synced</p>
+            <h4 id="node-1-2">Waiting for response</h4>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold">Current block number</p>
+            <h4 id="node-1-3">Waiting for response</h4>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold">Is miner</p>
+            <h4 id="node-1-4">Waiting for response</h4>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold">Hash rate</p>
+            <h4 id="node-1-5">Waiting for response</h4>
+          </div>
+          <div class="text-center">
+            <p class="text-lg font-bold">Peer count</p>
+            <h4 id="node-1-6">Waiting for response</h4>
+          </div>
+        </div>
+        <div class="flex flex-row justify-around content-center mb-8 px-8">
+          <div class="text-center shrink">
+            <p class="text-lg font-bold">Average network latency</p>
+            <p class="text-xl font-bold mb-8" id="node-2-2">
+              Waiting for response
+            </p>
+            <p class="text-lg font-bold">Instantaneous latency</p>
+            <p class="text-xl font-bold" id="node-2-1">Waiting for response</p>
+          </div>
+          <div class="h-96 grow" id="graph1"></div>
+        </div>
+        <div class="flex flex-row justify-around mb-8">
+          <div class="col-3">
+            <p class="text-lg font-bold">
+              Average transactions received per second
+            </p>
+            <h1 id="node-2-3">Waiting for response</h1>
+            <p class="text-lg font-bold">Instantaneous transactions/s</p>
+            <p id="node-2-4">Waiting for response</p>
+          </div>
+          <div class="col-3">
+            <p class="text-lg font-bold">Average gas received per second</p>
+            <h2 id="node-2-5">Waiting for response</h2>
+            <p class="text-lg font-bold">Average value received per second</p>
+            <h2 id="node-2-6">Waiting for response</h2>
+          </div>
+          <div class="col-3" id="bottom-left-div">
+            <div class="col-2">
+              <div class="row-2">
+                <p class="text-lg font-bold">TxValue in TxPool</p>
+                <h2 id="node-3-1">Waiting for response</h2>
+              </div>
+              <div class="row-2">
+                <p class="text-lg font-bold">Since last block updated</p>
+                <h2 id="node-3-3">Waiting for response</h2>
+              </div>
+            </div>
+            <div class="col-2">
+              <div class="row-2">
+                <p class="text-lg font-bold">Gas in TxPool</p>
+                <h2 id="node-3-2">Waiting for response</h2>
+              </div>
+              <div class="row-2">
+                <p class="text-lg font-bold">Block update latency</p>
+                <h2 id="node-3-4">Waiting for response</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
 
 <script>
-    var web3
-        // var web3 = new Web3(new Web3.providers.WebsocketProvider(""), {
-        //     clientConfig: {
-        //         maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
-        //         maxReceivedMessageSize: 10000000
-        //     }
-        // });
-    var stopTime = 20000
-    var url_type = "ws"
-    var interval
+  var web3
+  // var web3 = new Web3(new Web3.providers.WebsocketProvider(""), {
+  //     clientConfig: {
+  //         maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
+  //         maxReceivedMessageSize: 10000000
+  //     }
+  // });
+  var stopTime = 20000
+  var url_type = 'ws'
+  var interval
 
-    // start()
+  // start()
 
-    function start() {
-        console.log("start")
-        $('#start_page').hide()
-        $('#node_page').show()
+  function start() {
+    console.log('start')
+    $('#start_page').hide()
+    $('#node_page').show()
 
-        showStaticInfo()
-        speedTest();
-        txInfoGet();
-        txPoolGet()
-        blockInfoGet();
-        // recursive call: includes: txpoll stats, block update state and transaction subscription stats
-        interval = setInterval(recurInfoUpdate, 1000);
+    showStaticInfo()
+    speedTest()
+    txInfoGet()
+    txPoolGet()
+    blockInfoGet()
+    // recursive call: includes: txpoll stats, block update state and transaction subscription stats
+    interval = setInterval(recurInfoUpdate, 1000)
 
-        setTimeout(stop, stopTime);
+    setTimeout(stop, stopTime)
+  }
+
+  function backToMain() {
+    stop()
+    $('#node_page').hide()
+    $('#start_page').show()
+  }
+
+  function stop() {
+    console.log('stop!')
+    clearInterval(interval)
+    stopSpeedTest()
+    stopTxPool()
+    web3.eth.clearSubscriptions()
+    console.log(latencyArr)
+  }
+
+  function showStaticInfo() {
+    web3.eth
+      .getChainId()
+      .then(function (value) {
+        console.log(value)
+        $('#node-1-1').text(value)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-1').text('Not supported by endpoint')
+      })
+
+    web3.eth
+      .isSyncing()
+      .then(function (value) {
+        console.log(value)
+        if (value == false) $('#node-1-2').text('True')
+        else $('#node-1-2').text('False')
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-2').text('Not supported by endpoint')
+      })
+
+    web3.eth
+      .getBlockNumber()
+      .then(function (value) {
+        $('#node-1-3').text(value)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-3').text('Not supported by endpoint')
+      })
+
+    web3.eth
+      .isMining()
+      .then(function (value) {
+        $('#node-1-4').text(value)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-4').text('Not supported by endpoint')
+      })
+
+    web3.eth
+      .getHashrate()
+      .then(function (value) {
+        $('#node-1-5').text(value)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-5').text('Not supported by endpoint')
+      })
+
+    web3.eth.net
+      .getPeerCount()
+      .then(function (value) {
+        $('#node-1-6').text(value)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-1-6').text('Not supported by endpoint')
+      })
+  }
+
+  // recursive calls
+  function recurInfoUpdate() {
+    // Update Tx Info
+    txUpdate()
+    txPoolUpdate()
+    blockInfoUpdate()
+    speedTestUpdate()
+  }
+
+  // network speed test
+  var rounds = 0
+  var avgSpeed = 0
+  var stopSpeedTestFlag = false
+  var latencyArr = []
+
+  function speedTest() {
+    stopSpeedTestFlag = false
+    tempTime = new Date()
+    web3.eth.getChainId().then(function (value) {
+      var questTime = new Date() - tempTime
+      $('#node-2-1').text(questTime + ' ms')
+      totalSpeed = avgSpeed * rounds + questTime
+      rounds++
+      avgSpeed = Number.parseInt(totalSpeed / rounds)
+      latencyArr[rounds] = questTime
+      if (!stopSpeedTestFlag) speedTest()
+    })
+  }
+
+  function speedTestUpdate() {
+    $('#node-2-2').text(avgSpeed + ' ms')
+    var tempArr
+    var tempX = [0]
+
+    if (rounds < 150) {
+      tempArr = latencyArr
+      for (i = 0; i < rounds; i++) {
+        tempX[i] = i
+      }
+    } else {
+      tempArr = latencyArr.slice(rounds - 150, rounds)
+      for (i = 0; i < rounds; i++) {
+        tempX[i] = rounds - 150 + i
+      }
     }
 
-    function stop() {
-        console.log("stop!")
-        clearInterval(interval);
-        stopSpeedTest();
-        stopTxPool();
-        web3.eth.clearSubscriptions();
-        console.log(latencyArr)
+    var trace1 = {
+      y: tempArr,
+      x: tempX,
+      mode: 'line',
+    }
+    var data = [trace1]
+
+    var layout = {
+      title: 'Network latency',
+      yaxis: {
+        range: [0, 1000],
+      },
+      paper_bgcolor: 'rgba(255,255,255,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)',
     }
 
-    function showStaticInfo() {
-        web3.eth.getChainId().then(function(value) {
-                console.log(value)
-                $('#node-1-1').text(value)
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-1').text("Not supported by endpoint")
-            })
+    Plotly.newPlot('graph1', data, layout)
+  }
 
-        web3.eth.isSyncing().then(function(value) {
-                console.log(value)
-                if (value == false)
-                    $('#node-1-2').text("True")
-                else
-                    $('#node-1-2').text("False")
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-2').text("Not supported by endpoint")
-            })
+  function stopSpeedTest() {
+    stopSpeedTestFlag = true
+  }
 
-        web3.eth.getBlockNumber().then(function(value) {
-                $('#node-1-3').text(value)
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-3').text("Not supported by endpoint")
-            })
+  // transaction stats reporting
+  var txSubscription
+  var txRound = 0
+  var secondsPassed = 0
+  var totalTxCount = 0
+  var tempTxCount = 0
+  var maxTxPerSecond = 0
+  var totalTxCount2 = 0
+  var avgTxGasPrice = 0
+  var avgTxValue = 0
 
+  function txInfoGet() {
+    if (url_type == 'https') {
+      $('#node-2-3').text('Not supported by endpoint')
+      return
+    } else
+      try {
+        console.log('start')
+        txSubscription = web3.eth
+          .subscribe('pendingTransactions')
+          .on('data', function (txHash) {
+            web3.eth.getTransaction(txHash).then(function (tx) {
+              try {
+                if (tx != null) {
+                  var gas =
+                    Number(web3.utils.fromWei(tx['gasPrice'], 'ether')) *
+                    Number(web3.utils.hexToNumberString(tx['gas']))
+                  var value = Number(web3.utils.fromWei(tx['value'], 'ether'))
 
-        web3.eth.isMining().then(function(value) {
-                $('#node-1-4').text(value)
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-4').text("Not supported by endpoint")
-            })
+                  var totalTxGas = avgTxGasPrice * totalTxCount2 + gas
+                  var totalTxVal = avgTxValue * totalTxCount2 + value
+                  totalTxCount2++
+                  avgTxGasPrice = totalTxGas / totalTxCount2
+                  avgTxValue = totalTxVal / totalTxCount2
 
-        web3.eth.getHashrate().then(function(value) {
-                $('#node-1-5').text(value)
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-5').text("Not supported by endpoint")
-            })
-
-
-        web3.eth.net.getPeerCount().then(function(value) {
-                $('#node-1-6').text(value)
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-1-6').text("Not supported by endpoint")
-            })
-    }
-
-    // recursive calls
-    function recurInfoUpdate() {
-        // Update Tx Info
-        txUpdate()
-        txPoolUpdate()
-        blockInfoUpdate()
-        speedTestUpdate()
-    }
-
-    // network speed test
-    var rounds = 0
-    var avgSpeed = 0
-    var stopSpeedTestFlag = false
-    var latencyArr = []
-
-    function speedTest() {
-        stopSpeedTestFlag = false
-        tempTime = new Date();
-        web3.eth.getChainId().then(function(value) {
-            var questTime = new Date() - tempTime
-            $('#node-2-1').text(questTime + " ms")
-            totalSpeed = avgSpeed * rounds + questTime
-            rounds++
-            avgSpeed = Number.parseInt(totalSpeed / rounds)
-            latencyArr[rounds] = questTime
-            if (!stopSpeedTestFlag)
-                speedTest();
-        })
-    }
-
-    function speedTestUpdate() {
-        $('#node-2-2').text(avgSpeed + " ms")
-        var tempArr
-        var tempX = [0]
-
-        if (rounds < 150) {
-            tempArr = latencyArr
-            for (i = 0; i < rounds; i++) {
-                tempX[i] = i
-            }
-        } else {
-            tempArr = latencyArr.slice(rounds - 150, rounds)
-            for (i = 0; i < rounds; i++) {
-                tempX[i] = rounds - 150 + i
-            }
-        }
-
-        var trace1 = {
-            y: tempArr,
-            x: tempX,
-            mode: 'line'
-        };
-        var data = [trace1];
-
-        var layout = {
-            title: 'Network latency',
-            yaxis: {
-                range: [0, 1000]
-            },
-            paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
-
-        };
-
-        Plotly.newPlot('graph1', data, layout);
-
-    }
-
-    function stopSpeedTest() {
-        stopSpeedTestFlag = true
-    }
-
-    // transaction stats reporting
-    var txSubscription
-    var txRound = 0
-    var secondsPassed = 0
-    var totalTxCount = 0
-    var tempTxCount = 0
-    var maxTxPerSecond = 0
-    var totalTxCount2 = 0
-    var avgTxGasPrice = 0
-    var avgTxValue = 0
-
-    function txInfoGet() {
-        if (url_type == "https") {
-            $('#node-2-3').text("Not supported by endpoint")
-            return
-        } else try {
-            console.log("start");
-            txSubscription = web3.eth.subscribe('pendingTransactions')
-                .on("data", function(txHash) {
-                    web3.eth.getTransaction(txHash).then(function(tx) {
-                        try {
-                            if (tx != null) {
-
-                                var gas = Number(web3.utils.fromWei(tx["gasPrice"], "ether")) * Number(web3.utils.hexToNumberString(tx["gas"]))
-                                var value = Number(web3.utils.fromWei(tx["value"], "ether"))
-
-                                var totalTxGas = avgTxGasPrice * totalTxCount2 + gas
-                                var totalTxVal = avgTxValue * totalTxCount2 + value
-                                totalTxCount2++
-                                avgTxGasPrice = totalTxGas / totalTxCount2
-                                avgTxValue = totalTxVal / totalTxCount2
-
-                                // console.log(avgTxGasPrice)
-                                // console.log(avgTxValue)
-                            }
-                        } catch (e) {
-                            console.log(e)
-                        }
-                    })
-                    totalTxCount++
-                })
-        } catch (e) {
-            $('#node-2-3').text("Not supported by endpoint")
-            console.log(e)
-        }
-    }
-
-    function txUpdate() {
-        if (totalTxCount < (Number.MAX_SAFE_INTEGER - 1000)) {
-            // if (totalTxCount < (Number.MAX_SAFE_INTEGER - 1000) && totalTxCount < 1000) {
-            secondsPassed++
-            txPerSecond = totalTxCount - tempTxCount
-            avgTxPerSecond = (totalTxCount / secondsPassed).toFixed(3)
-            if (txPerSecond > maxTxPerSecond)
-                maxTxPerSecond = txPerSecond
-            $('#node-2-3').text(avgTxPerSecond)
-            $('#node-2-4').text(txPerSecond)
-            $('#node-2-5').text((avgTxPerSecond * avgTxGasPrice).toFixed(10) + " eth")
-            $('#node-2-6').text((avgTxPerSecond * avgTxValue).toFixed(10) + " eth")
-            tempTxCount = totalTxCount
-        } else {
-            txSubscription.unsubscribe(function(error, success) {
-                console.log("reaching max count! Abort!!!")
-                if (success)
-                    console.log('Successfully unsubscribed!');
-            });
-            clearInterval(t)
-        }
-    }
-
-    // txpool stats reporting
-    var txPool
-    var txPoolStopFlag = false
-
-    function txPoolGet() {
-        web3.extend({
-            property: 'txpool',
-            methods: [{
-                name: 'getTxPoolContent',
-                call: 'txpool_content'
-            }]
-        })
-        web3.txpool.getTxPoolContent().then(function(data) {
-                txPool = data
-                    // console.log(txPool)
-                if (!txPoolStopFlag)
-                    setTimeout(txPoolGet, 1000);
-            })
-            .catch(function(e) {
-                console.log(e)
-                $('#node-3-1').text("Not supported by endpoint")
-                $('#node-3-2').text("Not supported by endpoint")
-            })
-    }
-
-    function txPoolUpdate() {
-        if (txPool) {
-            util = web3.utils
-            tempCount = 0;
-            tempGasSum = 0;
-            tempValue = 0
-            for (var a in txPool.pending) {
-                for (var b in txPool.pending[a]) {
-                    // console.log(txPool.pending[a][b])
-                    gas = Number(util.hexToNumberString(txPool.pending[a][b].gas))
-                    gasPrice = Number(util.fromWei(util.hexToNumberString(txPool.pending[a][b].gasPrice), "ether"))
-                    value = Number(util.fromWei(util.hexToNumberString(txPool.pending[a][b].value), "ether"))
-                    tempTotalGasPrice = gas * gasPrice
-                    tempGasSum += tempTotalGasPrice
-                    tempValue += value
-                    tempCount++
+                  // console.log(avgTxGasPrice)
+                  // console.log(avgTxValue)
                 }
-            }
-            $('#node-3-1').text(tempValue.toFixed(5) + " eth")
-            $('#node-3-2').text(tempGasSum.toFixed(5) + " eth")
+              } catch (e) {
+                console.log(e)
+              }
+            })
+            totalTxCount++
+          })
+      } catch (e) {
+        $('#node-2-3').text('Not supported by endpoint')
+        console.log(e)
+      }
+  }
+
+  function txUpdate() {
+    if (totalTxCount < Number.MAX_SAFE_INTEGER - 1000) {
+      // if (totalTxCount < (Number.MAX_SAFE_INTEGER - 1000) && totalTxCount < 1000) {
+      secondsPassed++
+      txPerSecond = totalTxCount - tempTxCount
+      avgTxPerSecond = (totalTxCount / secondsPassed).toFixed(3)
+      if (txPerSecond > maxTxPerSecond) maxTxPerSecond = txPerSecond
+      $('#node-2-3').text(avgTxPerSecond)
+      $('#node-2-4').text(txPerSecond)
+      $('#node-2-5').text((avgTxPerSecond * avgTxGasPrice).toFixed(10) + ' eth')
+      $('#node-2-6').text((avgTxPerSecond * avgTxValue).toFixed(10) + ' eth')
+      tempTxCount = totalTxCount
+    } else {
+      txSubscription.unsubscribe(function (error, success) {
+        console.log('reaching max count! Abort!!!')
+        if (success) console.log('Successfully unsubscribed!')
+      })
+      clearInterval(t)
+    }
+  }
+
+  // txpool stats reporting
+  var txPool
+  var txPoolStopFlag = false
+
+  function txPoolGet() {
+    web3.extend({
+      property: 'txpool',
+      methods: [
+        {
+          name: 'getTxPoolContent',
+          call: 'txpool_content',
+        },
+      ],
+    })
+    web3.txpool
+      .getTxPoolContent()
+      .then(function (data) {
+        txPool = data
+        // console.log(txPool)
+        if (!txPoolStopFlag) setTimeout(txPoolGet, 1000)
+      })
+      .catch(function (e) {
+        console.log(e)
+        $('#node-3-1').text('Not supported by endpoint')
+        $('#node-3-2').text('Not supported by endpoint')
+      })
+  }
+
+  function txPoolUpdate() {
+    if (txPool) {
+      util = web3.utils
+      tempCount = 0
+      tempGasSum = 0
+      tempValue = 0
+      for (var a in txPool.pending) {
+        for (var b in txPool.pending[a]) {
+          // console.log(txPool.pending[a][b])
+          gas = Number(util.hexToNumberString(txPool.pending[a][b].gas))
+          gasPrice = Number(
+            util.fromWei(
+              util.hexToNumberString(txPool.pending[a][b].gasPrice),
+              'ether'
+            )
+          )
+          value = Number(
+            util.fromWei(
+              util.hexToNumberString(txPool.pending[a][b].value),
+              'ether'
+            )
+          )
+          tempTotalGasPrice = gas * gasPrice
+          tempGasSum += tempTotalGasPrice
+          tempValue += value
+          tempCount++
         }
+      }
+      $('#node-3-1').text(tempValue.toFixed(5) + ' eth')
+      $('#node-3-2').text(tempGasSum.toFixed(5) + ' eth')
     }
+  }
 
-    function stopTxPool() {
-        txPoolStopFlag = true
+  function stopTxPool() {
+    txPoolStopFlag = true
+  }
+  // block stats reporting
+  var blockSubscription
+  var updateTime
+  var updateBlockInfo
+  var blockUpdateLatency
+
+  function blockInfoGet() {
+    if (url_type == 'https') {
+      $('#node-3-3').text('Not supported by endpoint')
+      $('#node-3-4').text('Not supported by endpoint')
+      return
+    } else
+      try {
+        console.log('start block subscription')
+        blockSubscription = web3.eth
+          .subscribe('newBlockHeaders')
+          .on('data', function (blockHeader) {
+            updateTime = new Date()
+            updateBlockInfo = blockHeader
+            blockUpdateLatency =
+              updateTime - new Date(parseInt(updateBlockInfo.timestamp) * 1000)
+            // console.log(blockHeader)
+            // console.log(updateTime)
+            // console.log(new Date(parseInt(updateBlockInfo.timestamp)))
+            // console.log(blockUpdateLatency)
+          })
+      } catch (e) {
+        $('#node-3-3').text('Unable to fetch result')
+        $('#node-3-4').text('Unable to fetch result')
+        console.log(e)
+      }
+  }
+
+  function blockInfoUpdate() {
+    if (updateTime && blockUpdateLatency) {
+      var tempDelay = (new Date() - updateTime) / 1000
+      // console.log(blockUpdateLatency)
+      $('#node-3-3').text(tempDelay + ' s')
+      $('#node-3-4').text(blockUpdateLatency + ' ms')
     }
-    // block stats reporting
-    var blockSubscription
-    var updateTime
-    var updateBlockInfo
-    var blockUpdateLatency
+  }
 
-    function blockInfoGet() {
-        if (url_type == "https") {
-            $('#node-3-3').text("Not supported by endpoint")
-            $('#node-3-4').text("Not supported by endpoint")
-            return
-        } else try {
-            console.log("start block subscription");
-            blockSubscription = web3.eth.subscribe('newBlockHeaders')
-                .on("data", function(blockHeader) {
-                    updateTime = new Date();
-                    updateBlockInfo = blockHeader;
-                    blockUpdateLatency = updateTime - new Date(parseInt(updateBlockInfo.timestamp) * 1000)
-                        // console.log(blockHeader)
-                        // console.log(updateTime)
-                        // console.log(new Date(parseInt(updateBlockInfo.timestamp)))
-                        // console.log(blockUpdateLatency)
-                })
-        } catch (e) {
-            $('#node-3-3').text("Unable to fetch result")
-            $('#node-3-4').text("Unable to fetch result")
-            console.log(e)
-        }
-    }
+  // init function, calls when page is loaded
+  $(document).ready(function () {
+    $('#start_page').show()
+    // $('#node_page').show()
 
-    function blockInfoUpdate() {
-        if (updateTime && blockUpdateLatency) {
-            var tempDelay = (new Date() - updateTime) / 1000
-                // console.log(blockUpdateLatency)
-            $('#node-3-3').text(tempDelay + " s")
-            $('#node-3-4').text(blockUpdateLatency + " ms")
-        }
-    }
+    $('.url_rb').change(function () {
+      url_type = this.value
+      $('#url').val('')
+      if (this.value == 'ws') {
+        url_type = 'ws'
+        $('#url').attr('placeholder', 'wss://abcd*****')
+      } else if (this.value == 'https') {
+        url_type = 'https'
+        $('#url').attr('placeholder', 'https://abcd*****')
+      }
+    })
 
+    $('#start_button').click(function () {
+      url = document.getElementById('url').value
+      if (url_type == 'ws' && url.startsWith('http')) {
+        alert('Please enter a websocket endpoint.')
+        return
+      }
+      if (url_type == 'http' && url.startsWith('ws')) {
+        alert('Please enter a http endpoint.')
+        return
+      }
 
+      try {
+        if (url_type == 'ws')
+          web3 = new Web3(new Web3.providers.WebsocketProvider(url), {
+            clientConfig: {
+              maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
+              maxReceivedMessageSize: 10000000,
+            },
+          })
+        else
+          web3 = new Web3(new Web3.providers.HttpProvider(url), {
+            clientConfig: {
+              maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
+              maxReceivedMessageSize: 10000000,
+            },
+          })
 
-    // init function, calls when page is loaded
-    $(document).ready(function() {
-        $('#start_page').show()
-            // $('#node_page').show()
-
-        $('.url_rb').change(function() {
-            url_type = this.value
-            $('#url').val("")
-            if (this.value == "ws") {
-                url_type = "ws"
-                $('#url').attr("placeholder", "wss://abcd*****");
-            } else if (this.value == "https") {
-                url_type = "https"
-                $('#url').attr("placeholder", "https://abcd*****");
-            }
-        });
-
-        $('#start_button').click(function() {
-            url = document.getElementById("url").value
-            if (url_type == "ws" && url.startsWith("http")) {
-                alert("Please enter a websocket endpoint.")
-                return
-            }
-            if (url_type == "http" && url.startsWith("ws")) {
-                alert("Please enter a http endpoint.")
-                return
-            }
-
-            try {
-                if (url_type == "ws")
-                    web3 = new Web3(new Web3.providers.WebsocketProvider(url), {
-                        clientConfig: {
-                            maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
-                            maxReceivedMessageSize: 10000000
-                        }
-                    });
-                else
-                    web3 = new Web3(new Web3.providers.HttpProvider(url), {
-                        clientConfig: {
-                            maxReceivedFrameSize: 10000000, //needed because txpool_content call returns a lot of data
-                            maxReceivedMessageSize: 10000000
-                        }
-                    });
-
-                web3.eth.getChainId().then(function(value) {
-                    console.log("web3 connected with chain ID: " + value)
-                    start()
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        });
-    });
+        web3.eth.getChainId().then(function (value) {
+          console.log('web3 connected with chain ID: ' + value)
+          start()
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    })
+  })
 </script>
