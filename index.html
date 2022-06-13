@@ -30,7 +30,7 @@
       />
       <div
         id="start_page"
-        class="p-8 bg-black text-white rounded-lg h-4/5 opacity-80 max-w-4xl mx-auto"
+        class="p-8 bg-black text-white rounded-lg h-4/5 opacity-80 max-w-7xl mx-auto"
       >
         <h1 class="text-3xl font-bold my-8">EVM node performance insider</h1>
         <div class="space-y-4 flex flex-col mb-4 max-w-2xl">
@@ -45,9 +45,9 @@
               value="ws"
               checked
             />
-            <label class="mr-4 ml-1">WebSocket</label>
+            <label class="mr-4 ml-1">WEBSOCKET</label>
             <input class="url_rb" type="radio" name="url_type" value="https" />
-            <label class="ml-1">Https</label>
+            <label class="ml-1">HTTPS</label>
           </div>
           <input
             type="text"
@@ -99,11 +99,13 @@
       </div>
       <div
         id="node_page"
-        class="hidden p-8 bg-black text-white rounded-lg h-full opacity-80"
+        class="hidden p-8 bg-black text-white rounded-lg h-full opacity-80 max-w-7xl mx-auto"
       >
         <button class="hover:underline my-8" onClick="backToMain()">
           ⬅️ Go back
         </button>
+        <h1 class="text-3xl font-bold mb-8 text-center">EVM node performance insider</h1>
+
         <div class="flex flex-row justify-around mb-8">
           <div class="text-center">
             <p class="text-lg font-bold">Chain ID</p>
@@ -142,7 +144,7 @@
           <div class="h-96 grow" id="graph1"></div>
         </div>
         <div class="flex flex-row justify-around mb-8">
-          <div class="col-3">
+          <div class="flex flex-col space-y-2">
             <p class="text-lg font-bold">
               Average transactions received per second
             </p>
@@ -150,29 +152,29 @@
             <p class="text-lg font-bold">Instantaneous transactions/s</p>
             <p id="node-2-4">Waiting for response</p>
           </div>
-          <div class="col-3">
+          <div class="flex flex-col space-y-2">
             <p class="text-lg font-bold">Average gas received per second</p>
             <h2 id="node-2-5">Waiting for response</h2>
             <p class="text-lg font-bold">Average value received per second</p>
             <h2 id="node-2-6">Waiting for response</h2>
           </div>
-          <div class="col-3" id="bottom-left-div">
-            <div class="col-2">
-              <div class="row-2">
+          <div class="flex flex-col text-center" id="bottom-left-div">
+            <div class="flex flex-row justify-around">
+              <div class="">
                 <p class="text-lg font-bold">TxValue in TxPool</p>
                 <h2 id="node-3-1">Waiting for response</h2>
               </div>
-              <div class="row-2">
+              <div class="">
                 <p class="text-lg font-bold">Since last block updated</p>
                 <h2 id="node-3-3">Waiting for response</h2>
               </div>
             </div>
-            <div class="col-2">
-              <div class="row-2">
+            <div class="flex flex-row my-4">
+              <div class="">
                 <p class="text-lg font-bold">Gas in TxPool</p>
                 <h2 id="node-3-2">Waiting for response</h2>
               </div>
-              <div class="row-2">
+              <div class="">
                 <p class="text-lg font-bold">Block update latency</p>
                 <h2 id="node-3-4">Waiting for response</h2>
               </div>
