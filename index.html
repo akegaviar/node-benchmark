@@ -33,38 +33,38 @@
         class="p-8 bg-black text-white rounded-lg h-4/5 opacity-80 max-w-4xl mx-auto"
       >
         <h1 class="text-3xl font-bold my-8">EVM node performance insider</h1>
-        <div class="space-y-4 flex flex-col mb-8 max-w-2xl">
-          <div class="flex flex-row align-center space-x-4">
-            <p>The endpoint is:</p>
+        <div class="space-y-4 flex flex-col mb-4 max-w-2xl">
+          <div class="flex flex-row align-midle space-x-4">
+            <p><span class="mr-4">The node endpoint is:</span>
 
             <input
               checked
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+              class="url_rb"
               type="radio"
               name="url_type"
               value="ws"
               checked
             />
-            <label>WebSocket</label>
+            <label class="mr-4 ml-1">WebSocket</label>
             <input class="url_rb" type="radio" name="url_type" value="https" />
-            <label>Https</label>
+            <label class="ml-1">Https</label>
           </div>
           <input
             type="text"
             placeholder="wss://abcd*****"
             id="url"
             class="shadow-sm text-indigo-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-          />
+          /></p>
         </div>
 
         <button
           id="start_button"
-          class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          class="uppercase inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Start test
+          🚀 Start test
         </button>
         <div class="space-y-4 mt-12">
-          <p class="text-xl font-bold">⚠️ Notes</p>
+          <p class="text-xl font-bold">👀 Notes</p>
           <ul class="space-y-2 list-disc pl-4">
             <li>Works only on EVM.</li>
             <li>Transaction analysis only on WS endpoints.</li>
@@ -558,12 +558,14 @@
     })
 
     $('#start_button').click(function () {
+      console.log('Starting....')
+      console.log('document.getElementById', document.getElementById('url').value)
       url = document.getElementById('url').value
       if (url_type == 'ws' && url.startsWith('http')) {
         alert('Please enter a websocket endpoint.')
         return
       }
-      if (url_type == 'http' && url.startsWith('ws')) {
+      if (url_type == 'https' && url.startsWith('wss')) {
         alert('Please enter a http endpoint.')
         return
       }
