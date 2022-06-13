@@ -51,7 +51,7 @@
           </div>
           <input
             type="text"
-            placeholder="wss://abcd*****"
+            placeholder="wss://your-node-wss-endpoint/*****"
             id="url"
             class="shadow-sm text-indigo-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
           /></p>
@@ -550,17 +550,20 @@
       $('#url').val('')
       if (this.value == 'ws') {
         url_type = 'ws'
-        $('#url').attr('placeholder', 'wss://abcd*****')
+        $('#url').attr('placeholder', 'wss://your-node-wss-endpoint/*****')
       } else if (this.value == 'https') {
         url_type = 'https'
-        $('#url').attr('placeholder', 'https://abcd*****')
+        $('#url').attr('placeholder', 'https://your-node-https-endpoint/*****')
       }
     })
 
     $('#start_button').click(function () {
       console.log('Starting....')
-      console.log('document.getElementById', document.getElementById('url').value)
       url = document.getElementById('url').value
+      if(url == '') {
+        alert('Please enter a node url (wss or https)')
+        return
+      }
       if (url_type == 'ws' && url.startsWith('http')) {
         alert('Please enter a websocket endpoint.')
         return
